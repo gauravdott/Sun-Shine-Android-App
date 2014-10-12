@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+
+    <string name="app_name">Sunshine</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Menu label to fetch updated weather info from the server -->
+    <string name="action_refresh" translatable="false">Refresh</string>
+    <string name="title_activity_detail">Details</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Label for the location preference [CHAR LIMIT = 30] -->
+    <string name="pref_location_label">Location</string>
+
+    <!-- Key name for storing location in SharedPreference [CHAR LIMIT=NONE] -->
+    <string name="pref_location_key" translatable="false">location</string>
+
+    <!-- Default value for the location preference [CHAR LIMIT=NONE] -->
+    <string name="pref_location_default" translatable="false">302021</string>
+
+    <!-- Label for the temperature units preference [CHAR LIMIT = 50] -->
+    <string name="pref_unit_label">Temperature Units</string>
+
+    <!-- Key name for storing unit in SharedPreference [CHAR LIMIT=NONE] -->
+    <string name="pref_unit_key" translatable="false">unit</string>
+
+    <!-- Entries for storing unit in SharedPreference dialog [CHAR LIMIT=20] -->
+    <string-array name="pref_unit_entries">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+
+    <!-- Values for storing unit in SharedPreference dialog [CHAR LIMIT=2] -->
+    <string-array name="pref_unit_values" translatable="false">
+        <item>@string/pref_unit_metric</item>
+        <item>@string/pref_unit_imperial</item>
+    </string-array>
+
+    <!-- Default value for the unit preference [CHAR LIMIT=NONE] -->
+    <string name="pref_unit_metric">Metric</string>
+    <string name="pref_unit_imperial">Imperial</string>
+
+    <string name="action_show_map">Show on Map</string>
+    <string name="action_share">Share</string>
+
+    <!-- Date Label when displaying today's weather forecast [Char LIMIT=20] -->
+    <string name="today">Today</string>
+
+    <!-- Date Label when displaying tomorrow's weather forecast [Char LIMIT=20] -->
+    <string name="tomorrow">Tomorrow</string>
+
+    <!-- Date Label when displaying day of week and date (i.e. Mon Jun 1) weather forecast [Char LIMIT=20] -->
+    <string name="format_full_friendly_date">
+        <xliff:g id="day_of_week">%1$s</xliff:g>, <xliff:g id="date">%2$s</xliff:g>
+    </string>
+
+</resources>
