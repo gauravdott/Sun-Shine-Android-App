@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.Date;
 
@@ -100,7 +101,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private void updateWeather() {
         String postalCode = Utility.getPreferredLocation(getActivity());
-        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(getActivity(), weatherForecastAdapter);
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask(getActivity());
         fetchWeatherTask.execute(postalCode);
 
     }
@@ -108,7 +109,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my, container, false);
 
         weatherForecastAdapter = new SimpleCursorAdapter(
                 getActivity(),
@@ -130,6 +130,35 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 0
         );
 
+        weatherForecastAdapter.setViewBinder(
+            new SimpleCursorAdapter.ViewBinder() {
+
+                @Override
+                public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+                    boolean isMetric = Utility.isMetric(getActivity());
+                    switch (columnIndex) {
+                        case COL_WEATHER_MAX_TEMP:
+                        case COL_WEATHER_MIN_TEMP:
+                        {
+                            //We have to do some formatting and possibly a conversion
+                            ((TextView) view).setText(
+                                    Utility.formatTemperature(cursor.getDouble(columnIndex), isMetric));
+                            return true;
+                        }
+                        case COL_WEATHER_DATE:
+                        {
+                            String dateString = cursor.getString(columnIndex);
+                            TextView dateView = (TextView)view;
+                            dateView.setText(Utility.formatDate(dateString));
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+        });
+
+        View rootView = inflater.inflate(R.layout.fragment_my, container, false);
+
         final ListView weatherForecastList = (ListView) rootView.findViewById(R.id.listview_forecast);
         weatherForecastList.setAdapter(weatherForecastAdapter);
 
@@ -137,6 +166,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent showDetails = new Intent(getActivity(), DetailActivity.class);
+                SimpleCursorAdapter adapter = (SimpleCursorAdapter) parent.getAdapter();
+                Cursor cursor = adapter.getCursor();
                 showDetails.putExtra(Intent.EXTRA_TEXT, weatherForecastList.getItemAtPosition(position).toString());
                 startActivity(showDetails);
             }

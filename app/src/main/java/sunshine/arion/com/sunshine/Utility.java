@@ -58,7 +58,7 @@ public class Utility {
         } else {
             temp = temperature;
         }
-        return String.format("%.0f", temp);
+        return String.format("%.0f °C", temp);
     }
 
     static String formatDate(String dateString) {
