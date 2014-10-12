@@ -168,8 +168,24 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 Intent showDetails = new Intent(getActivity(), DetailActivity.class);
                 SimpleCursorAdapter adapter = (SimpleCursorAdapter) parent.getAdapter();
                 Cursor cursor = adapter.getCursor();
-                showDetails.putExtra(Intent.EXTRA_TEXT, weatherForecastList.getItemAtPosition(position).toString());
-                startActivity(showDetails);
+
+                if (cursor != null && cursor.moveToPosition(position)) {
+                    String dateString = Utility.formatDate(cursor.getString(COL_WEATHER_DATE));
+                    String weatherDescription = cursor.getString(COL_WEATHER_DESC);
+
+                    boolean isMetric = Utility.isMetric(getActivity());
+                    String high = Utility.formatTemperature(
+                            cursor.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+                    String low = Utility.formatTemperature(
+                            cursor.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+
+                    String detailString = String.format("%s - %s - %s/%s",
+                            dateString, weatherDescription, high, low);
+
+
+                    showDetails.putExtra(Intent.EXTRA_TEXT, detailString);
+                    startActivity(showDetails);
+                }
             }
         });
 
